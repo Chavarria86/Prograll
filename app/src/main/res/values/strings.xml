@@ -1,17 +1,3 @@
 <resources>
-    <string name="app_name">MiPrimerAplicacion</string>
-    <string-array name="opciones">
-        <item>SUMA</item>
-        <item>RESTA</item>
-        <item>MULTIPLICACION</item>
-        <item>DIVISION</item>
-        <item>EXPONENTE</item>
-        <item>PORCENTAJE</item>
-        <item>RAIZ</item>
-        <item>FACTORIAL</item>
-        <item>CUBICA</item>
-        <item>MODULO</item>
-        <item>MAYOR</item>
-
-    </string-array>
+    <string name="app_name">Agenda</string>
 </resources>
