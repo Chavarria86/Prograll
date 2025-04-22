@@ -12,3 +12,4 @@ public class utilidades {
         return java.util.UUID.randomUUID().toString();
     }
 }
+// conexion a la base de datos para movil
