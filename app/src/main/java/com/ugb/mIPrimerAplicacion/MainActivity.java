@@ -1,5 +1,9 @@
 package com.ugb.mIPrimerAplicacion;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,94 +22,55 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 public class MainActivity extends AppCompatActivity {
-    Button btn;
     TextView tempVal;
-    RadioGroup rgb;
-    RadioButton opt;
-    EditText num1, num2;
-
-    Spinner spn;
-
+    SensorManager sensorManager;
+    Sensor sensor;
+    SensorEventListener sensorEventListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn = findViewById(R.id.btnCalcular);
-        num1 = findViewById(R.id.txtNum1);
-        num2 = findViewById(R.id.txtNum2);
-
-        spn = findViewById(R.id.spnOpciones);
-        spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sensorLuz();
+    }
+    @Override
+    protected void onResume() {
+        iniciar();
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        detener();
+        super.onPause();
+    }
+    private void iniciar(){
+        sensorManager.registerListener(sensorEventListener, sensor, 2000*1000);
+    }
+    private void detener(){
+        sensorManager.unregisterListener(sensorEventListener);
+    }
+    private void sensorLuz(){
+        tempVal = findViewById(R.id.lblSensorAcelerometro);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if( sensor==null ){
+            tempVal.setText("Tu dispositivo, NO tiene el senor de ACELEROMETRO");
+            finish();
+        }
+        sensorEventListener = new SensorEventListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 6 || position == 7 || position == 8) {
-                    num2.setText("0.00");
-                    num2.setEnabled(false);
-                } else {
-                    num2.setEnabled(true);
-                }
+            public void onSensorChanged(SensorEvent event) {
+                double x = event.values[0];
+                double y = event.values[1];
+                double z = event.values[2];
+                tempVal.setText("Desplazamiento X= "+ x +"; Y= "+ y + "; Z= "+ z);
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
             }
-        });
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tempVal = findViewById(R.id.txtNum1);
-                double num1 = Double.parseDouble(tempVal.getText().toString());
-                tempVal = findViewById(R.id.txtNum2);
-                double num2 = tempVal.isEnabled() ? Double.parseDouble(tempVal.getText().toString()) : 0;
-                double respuesta = 0.0;
-
-                spn = findViewById(R.id.spnOpciones);
-                switch (spn.getSelectedItemPosition()){
-                    case 0:
-                        respuesta = num1 + num2;
-                        break;
-                    case 1:
-                        respuesta = num1 - num2;
-                        break;
-                    case 2:
-                        respuesta = num1 * num2;
-                        break;
-                    case 3:
-                        respuesta = num1 / num2;
-                        break;
-                    case  4:
-                        respuesta = Math.pow(num1, num2);
-                        break;
-                    case 5:
-                        respuesta = (num1 * num2) / 100;
-                        break;
-                    case 6:
-                        respuesta = Math.sqrt(num1);
-                        break;
-                    case  7:
-                        respuesta = 1;
-                        for (int i = 2; i <= num1; i++){
-                            respuesta *= i;
-                        }
-                        break;
-                    case 8:
-                        respuesta = Math.cbrt(num1);
-                        break;
-                    case 9:
-                        respuesta = num1 % num2;
-                        break;
-                    case 10:
-                        respuesta = Math.max(num1,num2);
-                        break;
-                }
-
-                tempVal = findViewById(R.id.lblRespuesta);
-                tempVal.setText("Respuesta: " + respuesta);
-            }
-        });
+        };
     }
 }
