@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class detectarInternet { private Context context;
+public class detectarInternet {
+    private Context context;
     public detectarInternet(Context context){
         this.context = context;
     }
@@ -24,4 +25,5 @@ public class detectarInternet { private Context context;
         return false;
     }
 }
+
 

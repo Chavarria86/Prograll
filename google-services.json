@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "898859341126",
+    "firebase_url": "https://miwhatsappnotificaciones-d4d5b-default-rtdb.firebaseio.com",
+    "project_id": "miwhatsappnotificaciones-d4d5b",
+    "storage_bucket": "miwhatsappnotificaciones-d4d5b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898859341126:android:30ee5daed1fbaf38d94147",
+        "android_client_info": {
+          "package_name": "com.ugb.mIPrimerAplicacion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFP2cD82IY1I6J6RtPNcTkRhajyi3LAKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
