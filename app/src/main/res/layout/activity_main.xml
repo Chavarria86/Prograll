@@ -1,65 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scrollMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/background"
+    android:fillViewport="true"> <!-- Importante para que el LinearLayout ocupe toda la altura -->
 
-    <TextView
-        android:id="@+id/lblNum1"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="20dp"
-        android:text="Num 1: "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/txtNum1"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="70dp"
+    <LinearLayout
+        android:id="@+id/llMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp"> <!-- Padding general -->
 
-    <TextView
-        android:id="@+id/lblRespuesta"
-        android:text="Respuesta: ? "
-        android:layout_marginTop="180dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <!-- Mensaje de Bienvenida Mejorado -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¡Hola!\nBienvenido a CuadraSmart"
+            android:textSize="26sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/textColorPrimary"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingMultiplier="1.1"/>
 
+        <TextView
+            android:id="@+id/tvCurrentStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tienda: Tienda No Seleccionada"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="28dp"/>
 
-    <Spinner
-        android:id="@+id/spnOpciones"
-        android:layout_below="@id/btnCalcular"
-        android:entries="@array/opciones"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- Botones de Configuración de Vista/Tienda -->
+        <Button
+            android:id="@+id/btnToggleRole"
+            style="@style/AppButton.Contained"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cambiar Vista"
+            app:icon="@drawable/ic_baseline_switch_account_24" />
 
+        <Button
+            android:id="@+id/btnCambiarTienda"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar Otra Tienda"
+            app:icon="@drawable/ic_baseline_store_24" />
 
-    <Button
-        android:id="@+id/btnCalcular"
-        android:layout_marginTop="210dp"
-        android:text="Calcular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- Separador visual -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGray"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:id="@+id/lblNum2"
-        android:layout_marginTop="120dp"
-        android:layout_marginLeft="20dp"
-        android:text="Num 2: "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Módulos de Operación"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="12dp"/>
 
-    <EditText
-        android:id="@+id/txtNum2"
-        android:layout_marginTop="110dp"
-        android:layout_marginLeft="70dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</RelativeLayout>
+        <!-- Botones de Módulos -->
+        <Button
+            android:id="@+id/btnRegistroTurno"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_shift"
+            app:icon="@drawable/ic_baseline_edit_note_24"/>
+
+        <Button
+            android:id="@+id/btnHistorial"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/history"
+            app:icon="@drawable/ic_baseline_history_24"/>
+
+        <!-- Título y Botones solo para Supervisor -->
+        <TextView
+            android:id="@+id/tvSupervisorModulesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Módulos de Supervisor"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"/> <!-- Inicialmente oculto, controlado por Java -->
+
+        <Button
+            android:id="@+id/btnReportes"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reports"
+            app:icon="@drawable/ic_baseline_bar_chart_24"/>
+
+        <Button
+            android:id="@+id/btnAdministrarCajeros"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/manage_cashiers"
+            app:icon="@drawable/ic_baseline_people_24"/>
+
+        <Button
+            android:id="@+id/btnAdministrarTiendas"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/manage_stores"
+            app:icon="@drawable/ic_baseline_storefront_24"/>
+
+        <Button
+            android:id="@+id/btnChatPrivado"
+            style="@style/AppButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/private_chat"
+            app:icon="@drawable/ic_baseline_chat_24"/>
+
+        <!-- Botón de Cerrar Sesión -->
+        <Button
+            android:id="@+id/btnLogout"
+            style="@style/AppButton.Destructive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Cerrar Sesión"
+            app:icon="@drawable/ic_baseline_logout_24"/>
+
+    </LinearLayout>
+</ScrollView>

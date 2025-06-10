@@ -1,5 +1,6 @@
 package com.ugb.mIPrimerAplicacion;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,92 +20,37 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn;
-    TextView tempVal;
-    RadioGroup rgb;
-    RadioButton opt;
-    EditText num1, num2;
 
-    Spinner spn;
+    private EditText etUsername, etPassword;
+    private Button btnLogin;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-        btn = findViewById(R.id.btnCalcular);
-        num1 = findViewById(R.id.txtNum1);
-        num2 = findViewById(R.id.txtNum2);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        dbHelper = new DatabaseHelper(this);
 
-        spn = findViewById(R.id.spnOpciones);
-        spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 6 || position == 7 || position == 8) {
-                    num2.setText("0.00");
-                    num2.setEnabled(false);
+        btnLogin.setOnClickListener(v -> {
+            String username = etUsername.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            if (username.isEmpty() || password.isEmpty()){
+                Toast.makeText(MainActivity.this, "Por favor, ingrese sus credenciales", Toast.LENGTH_SHORT).show();
+            } else {
+                boolean isAuthenticated = dbHelper.authenticateUser(username, password);
+                if(isAuthenticated){
+                    // Credenciales correctas: iniciar actividad de selección de tienda
+                    Intent intent = new Intent(MainActivity.this, TiendasActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    num2.setEnabled(true);
+                    Toast.makeText(MainActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tempVal = findViewById(R.id.txtNum1);
-                double num1 = Double.parseDouble(tempVal.getText().toString());
-                tempVal = findViewById(R.id.txtNum2);
-                double num2 = tempVal.isEnabled() ? Double.parseDouble(tempVal.getText().toString()) : 0;
-                double respuesta = 0.0;
-
-                spn = findViewById(R.id.spnOpciones);
-                switch (spn.getSelectedItemPosition()){
-                    case 0:
-                        respuesta = num1 + num2;
-                        break;
-                    case 1:
-                        respuesta = num1 - num2;
-                        break;
-                    case 2:
-                        respuesta = num1 * num2;
-                        break;
-                    case 3:
-                        respuesta = num1 / num2;
-                        break;
-                    case  4:
-                        respuesta = Math.pow(num1, num2);
-                        break;
-                    case 5:
-                        respuesta = (num1 * num2) / 100;
-                        break;
-                    case 6:
-                        respuesta = Math.sqrt(num1);
-                        break;
-                    case  7:
-                        respuesta = 1;
-                        for (int i = 2; i <= num1; i++){
-                            respuesta *= i;
-                        }
-                        break;
-                    case 8:
-                        respuesta = Math.cbrt(num1);
-                        break;
-                    case 9:
-                        respuesta = num1 % num2;
-                        break;
-                    case 10:
-                        respuesta = Math.max(num1,num2);
-                        break;
-                }
-
-                tempVal = findViewById(R.id.lblRespuesta);
-                tempVal.setText("Respuesta: " + respuesta);
             }
         });
     }
